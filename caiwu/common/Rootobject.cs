@@ -142,7 +142,10 @@ public class Rootobject
             public string city_name { get; set; }
             public string district_name { get; set; }
             public string street_name { get; set; }
-        }
+            public string goods_name { get; set; }
+            public string goods_number { get; set; }
+            public string goods_price { get; set; }
+    }
     
  
 }
