@@ -34,6 +34,7 @@ namespace caiwu
             rootobject = JsonConvert.DeserializeObject<Rootobject>(rep_str);
             MessageBox.Show(rootobject.msg);
             MessageBox.Show(rootobject.info.list[1].address);
+            this.dataGridView1.DataSource = rootobject.info.list;
         }
     }
 }
