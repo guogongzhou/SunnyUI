@@ -7,7 +7,7 @@
     <ProjectGuid>{50A1C2D0-E39B-4D5D-92ED-BE4138A8BD66}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>caiwu</RootNamespace>
-    <AssemblyName>caiwu</AssemblyName>
+    <AssemblyName>feifeigo</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -53,6 +53,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="common\Class1.cs" />
+    <Compile Include="common\DataTableGroupBy.cs" />
+    <Compile Include="common\DataTableToExcel.cs" />
     <Compile Include="common\DateTimeTool.cs" />
     <Compile Include="common\Item1.cs" />
     <Compile Include="common\OrderInfo.cs" />

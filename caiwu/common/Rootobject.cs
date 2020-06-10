@@ -131,6 +131,7 @@ public class Rootobject
             public int main_count { get; set; }
             public string rel_name { get; set; }
             public string id_num { get; set; }
+            public string stores_name { get; set; }
             public string rate_fee { get; set; }
             public int main_pay { get; set; }
             public int child_show { get; set; }

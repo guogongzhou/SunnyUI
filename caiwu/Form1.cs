@@ -18,6 +18,8 @@ namespace caiwu
 {
     public partial class Form1 : Form
     {
+        DataTable dt01;
+        DataTable dt02;
         private SkinEngine skinEngine1;
         public static Rootobject rootobject = null;
         public static OrderInfo orderInfo = null;
@@ -34,34 +36,24 @@ namespace caiwu
             String enddate = this.dateTimePicker2.Text;
 
             
-            long start_pay_time = DateTimeTool.ConvertDateTimeToInt(Convert.ToDateTime(startdate));
-            long end_pay_time = DateTimeTool.ConvertDateTimeToInt(Convert.ToDateTime(enddate));
+            long start_add_time = DateTimeTool.ConvertDateTimeToInt(Convert.ToDateTime(startdate));
+            long end_add_time = DateTimeTool.ConvertDateTimeToInt(Convert.ToDateTime(enddate));
             String pay_status = this.comboBox1.SelectedValue.ToString();
             String shipping_status = this.comboBox2.SelectedValue.ToString();
 
-            String url = "https://www.feifeigo.cn/api.php?app_key=A20DE5F4-BEA5-4E43-A5DC-AC173661F372&method=dsc.order.list.get&pay_status=" + pay_status +
+            String url = "https://www.feifeigo.cn/api.php?app_key=A20DE5F4-BEA5-4E43-A5DC-AC173661F372&page_size=1000&method=dsc.order.list.get&pay_status=" + pay_status +
                 "&shipping_status=" + shipping_status +
-                //"&start_pay_time=" + start_pay_time +
-                "&end_pay_time=" + end_pay_time;
+                "&start_add_time=" + start_add_time +
+                "&end_add_time=" + end_add_time;
             String rep_str = HtmlParser.HttpGet(url);
             JObject jo1 = (JObject)JsonConvert.DeserializeObject(rep_str);
             string zone_data1 = jo1["info"]["list"].ToString();
-            DataTable dt01 = Class1.JsonToDataTable2(zone_data1);
-            rootobject = JsonConvert.DeserializeObject<Rootobject>(rep_str);
-            MessageBox.Show(rootobject.msg);
-            //for (int i = 0; i < rootobject.info.list.Length; i++)
-            //{
-            //    String rep_str2 = HtmlParser.HttpGet("https://www.feifeigo.cn/api.php?app_key=A20DE5F4-BEA5-4E43-A5DC-AC173661F372&method=dsc.order.goods.list.get&order_id="+ rootobject.info.list[i].order_id);
-            //    orderInfo = JsonConvert.DeserializeObject<OrderInfo>(rep_str2);
-
-            //    rootobject.info.list[i].goods_name = orderInfo.info.list[0].goods_name;
-            //    rootobject.info.list[i].goods_number = ""+orderInfo.info.list[0].goods_number;
-            //    rootobject.info.list[i].goods_price = "" + orderInfo.info.list[0].goods_price;
-            //}
-
-            //this.dataGridView1.DataSource = rootobject.info.list;
+            JArray array = JsonConvert.DeserializeObject(zone_data1) as JArray;
+            this.label3.Text = "订单总数"+array.Count.ToString();
+            dt01 = Class1.JsonToDataTable2(array);
             this.dataGridView1.DataSource = dt01;
-
+            dt02= DataTableGroupBy.groupBy(dt01);
+            this.dataGridView2.DataSource = dt02;
         }
 
 
@@ -70,6 +62,7 @@ namespace caiwu
             CenterScreen();
             bindPayStat();
             bingdshipping_status();
+            Class1.initData();
         }
 
         public void bindPayStat() {
@@ -143,6 +136,7 @@ namespace caiwu
             int newformx = width / 2 - formwidth / 2;
             int newformy = height / 2 - formheight / 2;
             this.SetDesktopLocation(newformx, newformy);
+            this.MaximizeBox = false;
         }
 
         private void dataGridView1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
@@ -159,6 +153,16 @@ namespace caiwu
 
             var headerBounds = new Rectangle(e.RowBounds.Left, e.RowBounds.Top, grid.RowHeadersWidth, e.RowBounds.Height);
             e.Graphics.DrawString(rowIdx, this.Font, SystemBrushes.ControlText, headerBounds, centerFormat);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            DataTableToExcel.DataToExcel(dt01);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            DataTableToExcel.DataToExcel(dt02);
         }
     }
 }
