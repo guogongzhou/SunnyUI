@@ -95,9 +95,9 @@ namespace winformUI.common
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                MessageBox.Show("网络异常请稍后再试，或者检查您的网络设置。");
+                MessageBox.Show("网络异常请稍后再试，或者检查您的网络设置。"+e.Message);
             }
             
             return responsestr;

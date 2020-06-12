@@ -1,13 +1,25 @@
-﻿using System;
+﻿//************************************************************************
+//      author:     yuzhengyang
+//      date:       2017.3.29 - 2017.8.17
+//      desc:       日期时间工具
+//      Copyright (c) yuzhengyang. All rights reserved.
+//************************************************************************
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace caiwu.common
 {
-    class DateTimeTool
+    public sealed class DateTimeTool
     {
+        public static DateTime TodayDate1(int n)
+        {
+            DateTime today = DateTime.Now; 
+             DateTime result = new DateTime(today.Year, today.Month, today.Day, today.Hour- n, 0,0);
+            return result;
+        }
+
+
         public static DateTime TodayDate()
         {
             DateTime today = DateTime.Now;
@@ -60,7 +72,7 @@ namespace caiwu.common
         /// </summary>  
         /// <param name="time">时间</param>  
         /// <returns>long</returns>  
-        public static long ConvertDateTimeToInt(DateTime dateTime)
+        public static long ConvertDateTimeToInt(DateTime dateTime )
         {
             var ts = dateTime.ToUniversalTime() - new DateTime(1970, 1, 1, 0, 0, 0, 0);
             return Convert.ToInt64(ts.TotalSeconds);
@@ -75,7 +87,7 @@ namespace caiwu.common
             var tz = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1, 0, 0, 0, 0));
             return timestamp.Length == 13
                 ? tz.AddMilliseconds(Convert.ToInt64(timestamp))
-                : tz.AddSeconds(Convert.ToInt64(timestamp));
+                : tz.AddSeconds(Convert.ToInt64(timestamp)); 
         }
     }
 }

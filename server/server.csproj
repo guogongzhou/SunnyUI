@@ -69,6 +69,8 @@
     <Compile Include="common\LogHelper.cs" />
     <Compile Include="common\OrderInfo.cs" />
     <Compile Include="common\Rootobject.cs" />
+    <Compile Include="common\Setting.cs" />
+    <Compile Include="common\SQLHelper.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
