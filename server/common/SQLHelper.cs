@@ -185,7 +185,7 @@ namespace server.common
             {
                 LogHelper.WriteLog("执行SQL出现异常" + w.Message );
                 LogHelper.WriteLog("执行SQL出现异常" + Query);
-                throw;
+               
             }
 
 
