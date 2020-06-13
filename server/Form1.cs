@@ -50,9 +50,8 @@ namespace caiwu
             if (time1.Minute == runMinute)
             {
                 LogHelper.WriteLog("开始执行");
-                //                long start_add_time = DateTimeTool.ConvertDateTimeToInt(DateTimeTool.TodayDate1(1));
+                long start_add_time = DateTimeTool.ConvertDateTimeToInt(DateTimeTool.TodayDate1(1));
 
-                long start_add_time = 1591977600;//DateTimeTool.ConvertDateTimeToInt(DateTimeTool.TodayDate1(1));
                 long end_add_time = DateTimeTool.ConvertDateTimeToInt(DateTimeTool.TodayDate1(0));
 
                 String pay_status = "2";
