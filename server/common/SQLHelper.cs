@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -17,8 +16,7 @@ namespace server.common
     {
         #region 通用方法
         // 数据连接池 
-        private SqlConnection con;
-
+ 
         private static void CreateFile(byte[] fileBuffer, string newFilePath)
         {
             if (File.Exists(newFilePath))
@@ -53,13 +51,7 @@ namespace server.common
             //String port = "3306";
             return "Database=" + db + ";Data Source=" + ip + ";User Id=" + user + ";Password=" + pwd + ";pooling=false;CharSet=utf8;port=" + port + "";
         }
-
-        #region 解密字符串   
-        /// <summary>  
-        /// 解密字符串   
-        /// </summary>  
-        /// <param name="str">要解密的字符串</param>  
-        /// <returns>解密后的字符串</returns>  
+ 
         static string Decrypt(string str)
         {
             DESCryptoServiceProvider descsp = new DESCryptoServiceProvider();   // 实例化加/解密类对象    
@@ -85,107 +77,8 @@ namespace server.common
 
             return Encoding.Unicode.GetString(MStream.ToArray()); // 返回解密后的字符串  
         }
-        #endregion
-
-        #endregion
-        #region 执行sql字符串
-        /// <summary> 
-        /// 执行不带参数的SQL语句 
-        /// </summary> 
-        /// <param name="Sqlstr"></param> 
-        /// <returns></returns> 
-        public static int ExecuteSql(String Sqlstr)
-        {
-            int ret = 0;
-            using (SqlConnection conn = new SqlConnection(Setting.ConnStr))
-            {
-                SqlCommand cmd = new SqlCommand();
-                cmd.Connection = conn;
-                cmd.CommandText = Sqlstr;
-                conn.Open();
-                try
-                {
-                    ret = cmd.ExecuteNonQuery();
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show(e.Message);
-                    return 0;
-                }
-                conn.Close();
-                if (conn.State == ConnectionState.Open)
-                {
-                    conn.Close();
-                }
-                return ret;
-            }
-        }
-        public static object ExecuteScalar(String Sqlstr)
-        {
-            object obj;
-            using (SqlConnection conn = new SqlConnection(Setting.ConnStr))
-            {
-                SqlCommand cmd = new SqlCommand();
-                cmd.Connection = conn;
-                cmd.CommandText = Sqlstr;
-                conn.Open();
-                try
-                {
-                    obj = cmd.ExecuteScalar();
-                }
-                catch (Exception)
-                {
-                    return 0;
-                }
-                conn.Close();
-                if (conn.State == ConnectionState.Open)
-                {
-                    conn.Close();
-                }
-                return obj;
-            }
-        }
-        /// <summary> 
-        /// 执行带参数的SQL语句 
-        /// </summary> 
-        /// <param name="Sqlstr">SQL语句</param> 
-        /// <param name="param">参数对象数组</param> 
-        /// <returns></returns> 
-        public static int ExecuteSql(String Sqlstr, SqlParameter[] param)
-        {
-            using (SqlConnection conn = new SqlConnection(Setting.ConnStr))
-            {
-                SqlCommand cmd = new SqlCommand();
-                cmd.Connection = conn;
-                cmd.CommandText = Sqlstr;
-                cmd.Parameters.AddRange(param);
-                conn.Open();
-                cmd.ExecuteNonQuery();
-                conn.Close();
-                return 1;
-            }
-        }
-        /// <summary> 
-        /// 返回DataReader 
-        /// </summary> 
-        /// <param name="Sqlstr"></param> 
-        /// <returns></returns> 
-        public static SqlDataReader ExecuteReader(String Sqlstr)
-        {
-            SqlConnection conn = new SqlConnection(Setting.ConnStr);//返回DataReader时,是不可以用using()的 
-            try
-            {
-                SqlCommand cmd = new SqlCommand();
-                cmd.Connection = conn;
-                cmd.CommandText = Sqlstr;
-                conn.Open();
-                return cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);//关闭关联的Connection 
-            }
-            catch (Exception e)
-            {
-                return null;
-            }
-        }
+        
+        
         /// <summary> 
         /// 执行SQL语句并返回数据表 
         /// </summary> 
@@ -241,186 +134,8 @@ namespace server.common
         /// </summary> 
         /// <param name="Sqlstr">SQL语句</param> 
         /// <returns></returns> 
-
-        #endregion
-        #region 操作存储过程
-        /// <summary> 
-        /// 运行存储过程(已重载) 
-        /// </summary> 
-        /// <param name="procName">存储过程的名字</param> 
-        /// <returns>存储过程的返回值</returns> 
-        public void RunProc(string procName)
-        {
-            SqlCommand cmd = CreateCommand(procName, null);
-            cmd.ExecuteNonQuery();
-            this.Close();
-            //return (int)cmd.Parameters[0].Value;
-        }
-        /// <summary> 
-        /// 运行存储过程(已重载) 
-        /// </summary> 
-        /// <param name="procName">存储过程的名字</param> 
-        /// <param name="prams">存储过程的输入参数列表</param> 
-        /// <returns>存储过程的返回值</returns> 
-        public object RunProc(string procName, SqlParameter[] prams)
-        {
-            SqlCommand cmd = CreateCommand(procName, prams);
-            cmd.ExecuteNonQuery();
-            this.Close();
-            return cmd.Parameters[0].Value;
-        }
-        /// <summary> 
-        /// 运行存储过程(已重载) 
-        /// </summary> 
-        /// <param name="procName">存储过程的名字</param> 
-        /// <param name="dataReader">结果集</param> 
-        public void RunProc(string procName, out SqlDataReader dataReader)
-        {
-            SqlCommand cmd = CreateCommand(procName, null);
-            dataReader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
-        }
-        /// <summary> 
-        /// 运行存储过程(已重载) 
-        /// </summary> 
-        /// <param name="procName">存储过程的名字</param> 
-        /// <param name="prams">存储过程的输入参数列表</param> 
-        /// <param name="dataReader">结果集</param> 
-        public void RunProc(string procName, SqlParameter[] prams, out SqlDataReader dataReader)
-        {
-            SqlCommand cmd = CreateCommand(procName, prams);
-            dataReader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
-        }
-        /// <summary> 
-        /// 创建Command对象用于访问存储过程 
-        /// </summary> 
-        /// <param name="procName">存储过程的名字</param> 
-        /// <param name="prams">存储过程的输入参数列表</param> 
-        /// <returns>Command对象</returns> 
-        private SqlCommand CreateCommand(string procName, SqlParameter[] prams)
-        {
-            // 确定连接是打开的 
-            Open();
-            //command = new SqlCommand( sprocName, new SqlConnection( ConfigManager.DALConnectionString ) ); 
-            SqlCommand cmd = new SqlCommand(procName, con);
-            cmd.CommandType = CommandType.StoredProcedure;
-            // 添加存储过程的输入参数列表 
-            if (prams != null)
-            {
-                foreach (SqlParameter parameter in prams)
-                    cmd.Parameters.Add(parameter);
-            }
-            // 返回Command对象 
-            return cmd;
-        }
-        //增删改
-        public bool addpr(string prname, SqlParameter[] paraname)
-        {
-
-            Open();
-
-            SqlCommand mycmd = new SqlCommand(prname, con);
-
-            mycmd.CommandType = CommandType.StoredProcedure;
-
-            if (paraname != null)
-            {
-
-                foreach (SqlParameter patem in paraname)
-                {
-                    mycmd.Parameters.Add(patem);
-                }
-            }
-
-            return Convert.ToBoolean(mycmd.ExecuteNonQuery());
-        }
-
-        /// <summary> 
-        /// 创建输入参数 
-        /// </summary> 
-        /// <param name="ParamName">参数名</param> 
-        /// <param name="DbType">参数类型</param> 
-        /// <param name="Size">参数大小</param> 
-        /// <param name="Value">参数值</param> 
-        /// <returns>新参数对象</returns> 
-        public SqlParameter MakeInParam(string ParamName, SqlDbType DbType, int Size, object Value)
-        {
-            return MakeParam(ParamName, DbType, Size, ParameterDirection.Input, Value);
-        }
-        /// <summary> 
-        /// 创建输出参数 
-        /// </summary> 
-        /// <param name="ParamName">参数名</param> 
-        /// <param name="DbType">参数类型</param> 
-        /// <param name="Size">参数大小</param> 
-        /// <returns>新参数对象</returns> 
-        public SqlParameter MakeOutParam(string ParamName, SqlDbType DbType, int Size)
-        {
-            return MakeParam(ParamName, DbType, Size, ParameterDirection.Output, null);
-        }
-        /// <summary> 
-        /// 创建存储过程参数 
-        /// </summary> 
-        /// <param name="ParamName">参数名</param> 
-        /// <param name="DbType">参数类型</param> 
-        /// <param name="Size">参数大小</param> 
-        /// <param name="Direction">参数的方向(输入/输出)</param> 
-        /// <param name="Value">参数值</param> 
-        /// <returns>新参数对象</returns> 
-        public SqlParameter MakeParam(string ParamName, SqlDbType DbType, Int32 Size, ParameterDirection Direction, object Value)
-        {
-            SqlParameter param;
-            if (Size > 0)
-            {
-                param = new SqlParameter(ParamName, DbType, Size);
-            }
-            else
-            {
-                param = new SqlParameter(ParamName, DbType);
-            }
-            param.Direction = Direction;
-            if (!(Direction == ParameterDirection.Output && Value == null))
-            {
-                param.Value = Value;
-            }
-            return param;
-        }
-        #endregion
-        #region 数据库连接和关闭
-        /// <summary> 
-        /// 打开连接池 
-        /// </summary> 
-        private void Open()
-        {
-
-            // 打开连接池 
-            if (con == null)
-            {
-                //这里不仅需要using System.Configuration;还要在引用目录里添加 
-                con = new SqlConnection(Setting.ConnStr);
-                con.Open();
-            }
-
-        }
-        /// <summary> 
-        /// 关闭连接池 
-        /// </summary> 
-        public void Close()
-        {
-            if (con != null)
-                con.Close();
-        }
-        /// <summary> 
-        /// 释放连接池 
-        /// </summary> 
-        public void Dispose()
-        {
-            // 确定连接已关闭 
-            if (con != null)
-            {
-                con.Dispose();
-                con = null;
-            }
-        }
+ 
+         
         #endregion
         /// <summary>
         /// 检测数据库连接状态
@@ -448,113 +163,31 @@ namespace server.common
                 conn.Close();
             }
         }
-        /// <summary>
-        /// 向数据库导出图片
-        /// </summary>
-        /// <param name="photoName">导出图片的名称</param>
-        /// <returns>返回导出的图片，如果数据库没有该文件，返回一个16*16的bitmap文件</returns>
-        public static Image ExecuteOutPhoto(string photoName)
-        {
-            byte[] imagebytes = null;
-            //打开数据库
-            SqlConnection con = new SqlConnection(Setting.ConnStr);
-            con.Open();
+       
 
-            SqlCommand com = new SqlCommand("select bmp from speedBtn where ncaption = '" + photoName + "'", con);
-            SqlDataReader dr = com.ExecuteReader();
-
-            while (dr.Read())
-            {
-                imagebytes = (byte[])dr.GetValue(0);
-            }
-
-            dr.Close();
-            com.Clone();
-            con.Close();
-            if (imagebytes != null)
-            {
-                MemoryStream ms = new MemoryStream(imagebytes);
-                return new Bitmap(ms);
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-
-        public static SqlDataAdapter getSqlDataAdapter(string selectStr)
-        {
-            SqlDataAdapter sda;
-            using (SqlConnection conn = new SqlConnection(Setting.ConnStr))
-            {
-                sda = new SqlDataAdapter(selectStr, conn);
-                //DataTable dt = new DataTable();
-                conn.Open();
-                //da.Fill(dt);
-                //conn.Close();
-                return sda;
-            }
-        }
-
-
-
-        /// <summary>
-        /// 批量向数据库写入数据
-        /// </summary>
-        /// <param DataTable="dt">DataTable</param>
-        /// <param tablename>tablename</param>
-        /// <returns></returns>
-        public static void BulkToDB(DataTable dt, string tablename)
-        {
-            SqlConnection conn = new SqlConnection(Setting.ConnStr);
-            SqlBulkCopy bulkCopy = new SqlBulkCopy(conn);
-            bulkCopy.DestinationTableName = tablename;
-            bulkCopy.BatchSize = dt.Rows.Count;
-
-            try
-            {
-                if (dt != null && dt.Rows.Count != 0)
-                {
-                    conn.Open();
-                    foreach (DataColumn column in dt.Columns)
-                        bulkCopy.ColumnMappings.Add(column.ColumnName, column.ColumnName);
-                    bulkCopy.WriteToServer(dt);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                conn.Close();
-                if (bulkCopy != null)
-                    bulkCopy.Close();
-            }
-        }
-
+ 
 
 
         public static void updateCgd(String Query)
         {
+            try
+            {
+                MySqlConnection conn = new MySqlConnection(Setting.ConnStr);
 
-            MySqlConnection conn = new MySqlConnection(Setting.ConnStr);
+                MySqlCommand MyCommand2 = new MySqlCommand(Query, conn);
 
-            MySqlCommand MyCommand2 = new MySqlCommand(Query, conn);
+                MySqlDataReader MyReader2;
+                conn.Open();
+                MyReader2 = MyCommand2.ExecuteReader();
+                conn.Close();
+            }
+            catch (Exception w)
+            {
+                LogHelper.WriteLog("执行SQL出现异常" + w.Message );
+                LogHelper.WriteLog("执行SQL出现异常" + Query);
+                throw;
+            }
 
-            MySqlDataReader MyReader2;
-
-            conn.Open();
-
-            MyReader2 = MyCommand2.ExecuteReader();
-
-
-
-
-
-            conn.Close();
 
         }
 
