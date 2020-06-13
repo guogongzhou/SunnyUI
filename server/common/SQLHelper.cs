@@ -40,11 +40,11 @@ namespace server.common
 
 
             // String ip = "hk-cdb-gzcavcg3.sql.tencentcdb.com";
-            String ip = "127.0.0.1";
+            String ip = "39.100.137.4";
             String db = "feifeigo";
             String user = "root";
-            String pwd = "q1w2e3r4t5";
-            String port = "3306";
+            String pwd = "123456";
+            String port = "1522";
 
             //String ip = "127.0.0.1";
             //String db = "betaskdata";
@@ -227,6 +227,7 @@ namespace server.common
 
             using (MySqlConnection conn = new MySqlConnection(Setting.ConnStr))
             {
+                cmd.Connection = conn;
                 conn.Open();
                 int val = cmd.ExecuteNonQuery();
                 cmd.Parameters.Clear();
@@ -534,10 +535,12 @@ namespace server.common
             }
         }
 
-        public static void updateCgd(String Query, String connstr)
+
+
+        public static void updateCgd(String Query)
         {
 
-            MySqlConnection conn = new MySqlConnection(connstr);
+            MySqlConnection conn = new MySqlConnection(Setting.ConnStr);
 
             MySqlCommand MyCommand2 = new MySqlCommand(Query, conn);
 
@@ -548,13 +551,16 @@ namespace server.common
             MyReader2 = MyCommand2.ExecuteReader();
 
 
+
+
+
             conn.Close();
 
         }
 
 
 
-      
+
         private static byte[] FileToBytes(string filePath)
         {
             FileInfo fi = new FileInfo(filePath);

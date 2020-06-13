@@ -1,0 +1,19 @@
+﻿2020-06-13 10:38:29,877 [1] INFO  loginfo - 开始执行
+ loginfoname2020-06-13 10:38:36,205 [1] INFO  loginfo - 请求地址https://www.feifeigo.cn/api.php?app_key=A20DE5F4-BEA5-4E43-A5DC-AC173661F372&page_size=1000&method=dsc.order.list.get&pay_status=0&shipping_status=0&start_add_time=1592010000&end_add_time=1592013600
+ loginfoname2020-06-13 10:38:36,205 [1] INFO  loginfo - 返回数据{"result":"success","error":0,"msg":"\u6210\u529f\u83b7\u53d6\u6570\u636e","info":{"list":[],"filter":{"page":1,"page_size":1000,"record_count":0,"page_count":0},"page_count":0,"record_count":0}}
+ loginfoname2020-06-13 10:40:12,845 [1] INFO  loginfo - 开始执行
+ loginfoname2020-06-13 10:40:19,219 [1] INFO  loginfo - 请求地址https://www.feifeigo.cn/api.php?app_key=A20DE5F4-BEA5-4E43-A5DC-AC173661F372&page_size=1000&method=dsc.order.list.get&pay_status=0&shipping_status=0&start_add_time=1592010000&end_add_time=1592013600
+ loginfoname2020-06-13 10:40:19,219 [1] INFO  loginfo - 返回数据{"result":"success","error":0,"msg":"\u6210\u529f\u83b7\u53d6\u6570\u636e","info":{"list":[],"filter":{"page":1,"page_size":1000,"record_count":0,"page_count":0},"page_count":0,"record_count":0}}
+ loginfoname2020-06-13 10:42:45,607 [1] INFO  loginfo - 开始执行
+ loginfoname2020-06-13 10:42:51,192 [1] INFO  loginfo - 请求地址https://www.feifeigo.cn/api.php?app_key=A20DE5F4-BEA5-4E43-A5DC-AC173661F372&page_size=1000&method=dsc.order.list.get&pay_status=0&shipping_status=0&start_add_time=1592010000&end_add_time=1592013600
+ loginfoname2020-06-13 10:42:51,193 [1] INFO  loginfo - 返回数据{"result":"success","error":0,"msg":"\u6210\u529f\u83b7\u53d6\u6570\u636e","info":{"list":[],"filter":{"page":1,"page_size":1000,"record_count":0,"page_count":0},"page_count":0,"record_count":0}}
+ loginfoname2020-06-13 10:47:37,620 [1] INFO  loginfo - 开始执行
+ loginfoname2020-06-13 10:47:43,179 [1] INFO  loginfo - 请求地址https://www.feifeigo.cn/api.php?app_key=A20DE5F4-BEA5-4E43-A5DC-AC173661F372&page_size=1000&method=dsc.order.list.get&pay_status=0&shipping_status=0&start_add_time=1592010000&end_add_time=1592013600
+ loginfoname2020-06-13 10:47:43,179 [1] INFO  loginfo - 返回数据{"result":"success","error":0,"msg":"\u6210\u529f\u83b7\u53d6\u6570\u636e","info":{"list":[],"filter":{"page":1,"page_size":1000,"record_count":0,"page_count":0},"page_count":0,"record_count":0}}
+ loginfoname2020-06-13 10:53:35,197 [1] INFO  loginfo - 开始执行
+ loginfoname2020-06-13 10:53:41,206 [1] INFO  loginfo - 请求地址https://www.feifeigo.cn/api.php?app_key=A20DE5F4-BEA5-4E43-A5DC-AC173661F372&page_size=1000&method=dsc.order.list.get&pay_status=0&shipping_status=0&start_add_time=1592010000&end_add_time=1592013600
+ loginfoname2020-06-13 10:53:41,206 [1] INFO  loginfo - 返回数据{"result":"success","error":0,"msg":"\u6210\u529f\u83b7\u53d6\u6570\u636e","info":{"list":[],"filter":{"page":1,"page_size":1000,"record_count":0,"page_count":0},"page_count":0,"record_count":0}}
+ loginfoname2020-06-13 10:54:46,167 [1] INFO  loginfo - 开始执行
+ loginfoname2020-06-13 10:54:49,207 [1] INFO  loginfo - 请求地址https://www.feifeigo.cn/api.php?app_key=A20DE5F4-BEA5-4E43-A5DC-AC173661F372&page_size=1000&method=dsc.order.list.get&pay_status=0&shipping_status=0&start_add_time=1592010000&end_add_time=1592013600
+ loginfoname2020-06-13 10:54:49,207 [1] INFO  loginfo - 返回数据{"result":"success","error":0,"msg":"\u6210\u529f\u83b7\u53d6\u6570\u636e","info":{"list":[],"filter":{"page":1,"page_size":1000,"record_count":0,"page_count":0},"page_count":0,"record_count":0}}
+ loginfoname
