@@ -15,7 +15,7 @@ namespace caiwu.common
         public static DateTime TodayDate1(int n)
         {
             DateTime today = DateTime.Now; 
-             DateTime result = new DateTime(today.Year, today.Month, today.Day, today.Hour- n, 0,0);
+             DateTime result = new DateTime(today.Year, today.Month, today.Day, today.Hour- n, today.Minute- today.Minute, today.Second- today.Second);
             return result;
         }
 
