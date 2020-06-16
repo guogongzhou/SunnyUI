@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using caiwu.common;
 using caiwu.common2;
+using FastReport;
+using FastReport.Table;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Sunisoft.IrisSkin;
@@ -157,7 +159,68 @@ namespace caiwu
 
         private void button2_Click(object sender, EventArgs e)
         {
-            DataTableToExcel.DataToExcel(dt01);
+            //DataTableToExcel.DataToExcel(dt01);
+            do_print_chinapost();
+        }
+
+
+        public void do_print_chinapost()
+        {
+            Report report = new Report();
+            //获得模板的路径
+            string reportLabel = Application.StartupPath + "\\fahuodan.frx";
+            //加载报表模板
+            report.Load(reportLabel);
+            TableObject table1 = report.FindObject("Table1") as TableObject;
+             
+            if (table1 != null)
+            {
+                 TableRow r1 = new TableRow();
+                TableCell c1 = new TableCell();
+                c1.Text = "品名";
+                
+                TableCell c3 = new TableCell();
+                c3.Text = "数量";
+                
+                r1.AddChild(c1);
+                r1.AddChild(c3);
+                table1.AddChild(r1);
+                
+                for (int i = 0; i < 15; i++)
+                {
+                    TableRow row1 = new TableRow();
+                    TableCell cell1 = new TableCell();
+                    TableCell cell2 = new TableCell();
+                    cell1.Border.Color = Color.Black;
+                    cell1.Border.Lines = BorderLines.All;
+                    cell2.Border.Color = Color.Black;
+                    cell2.Border.Lines = BorderLines.All;
+                    cell1.Text = i + "爆款】七匹狼童装男童套装2020夏圆领儿童短袖卡通两件套运动中大童短裤 宝蓝";
+                    cell1.AutoWidth = true;
+                    cell2.Text = "2";
+                    row1.AddChild(cell1);
+                    row1.AddChild(cell2);
+                    table1.AddChild(row1);
+                }
+                TableRow r2 = new TableRow();
+                TableCell cz1 = new TableCell();
+                cz1.Text = "总计";
+                TableCell cz2 = new TableCell();
+                TableCell cz3 = new TableCell();
+                TableCell cz4 = new TableCell();
+                r2.AddChild(cz1);
+                r2.AddChild(cz2);
+                r2.AddChild(cz3);
+                r2.AddChild(cz4);
+                table1.AddChild(r2);
+                
+            }
+
+            //默认不显示打印机选择页面
+            report.PrintSettings.ShowDialog = false;
+             
+
+            report.Print();
         }
 
         private void button3_Click(object sender, EventArgs e)

@@ -10,15 +10,53 @@ using System.Text;
 
 namespace caiwu.common
 {
-    public sealed class DateTimeTool
+    public static class DateTimeTool
     {
-        public static DateTime TodayDate1(int n)
+        public static long GetTimeStamp1(System.DateTime time)
         {
-            DateTime today = DateTime.Now; 
-             DateTime result = new DateTime(today.Year, today.Month, today.Day, today.Hour- n, today.Minute- today.Minute, today.Second- today.Second);
-            return result;
+            DateTime DateStart = new DateTime(1970, 1, 1, 0, 0, 0);
+            return  (Convert.ToInt32((time - DateStart).TotalSeconds));
         }
 
+        public static DateTime TodayDate1(int n)
+        {
+            
+          
+
+            DateTime today = DateTime.Now.AddHours(-8); 
+             DateTime result = new DateTime(today.Year, today.Month, today.Day, today.Hour- n, today.Minute- today.Minute, today.Second- today.Second);
+            return result;
+
+        }
+
+        public static DateTime  ToDateTime(this long timestamp, bool millisecond = true, bool localTime = true)
+        {
+             
+                int ms = millisecond ? 10000 : 10000000;
+                var dt = new DateTime(Const.TiksUtc1970 + timestamp * ms, DateTimeKind.Utc);
+                if (localTime)
+                    dt.ToLocalTime();
+                return dt;
+            
+        }
+
+        public static long ConvertToTimestamp(DateTime value)
+        {
+            long epoch = (value.ToUniversalTime().Ticks - 621355968000000000) / 10000000;
+            return epoch;
+        }
+        public static DateTime TodayDate2()
+        {
+            DateTime today = DateTime.Now.AddHours(-8);
+            DateTime result = new DateTime(today.Year, today.Month, today.Day, today.Hour - today.Hour, today.Minute - today.Minute, today.Second - today.Second);
+            return result;
+        }
+        public static DateTime TodayDate_UTC(int n)
+        {
+            DateTime today = DateTime.UtcNow;
+            DateTime result = new DateTime(today.Year, today.Month, today.Day,today.Hour - n, today.Minute, today.Second);
+            return result;
+        }
 
         public static DateTime TodayDate()
         {
@@ -89,5 +127,27 @@ namespace caiwu.common
                 ? tz.AddMilliseconds(Convert.ToInt64(timestamp))
                 : tz.AddSeconds(Convert.ToInt64(timestamp)); 
         }
+    }
+    public class Const
+    {
+        /// <summary>
+        /// 日期时间格式化
+        /// </summary>
+        public const string DateTimeFormatString = "yyyy-MM-dd HH:mm:ss";
+
+        /// <summary>
+        /// 日期时间格式化
+        /// </summary>
+        public const string DateHmFormatString = "yyyy-MM-dd HH:mm";
+
+        /// <summary>
+        /// 日期格式化
+        /// </summary>
+        public const string DateFormatString = "yyyy-MM-dd";
+
+        /// <summary>
+        /// utc 1601-1-1 到 utc 1970-1-1 的 Ticks
+        /// </summary>
+        public const long TiksUtc1970 = 621355968000000000;
     }
 }
