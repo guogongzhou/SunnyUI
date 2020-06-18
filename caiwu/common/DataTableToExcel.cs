@@ -43,13 +43,15 @@ namespace caiwu.common
 
                 objStreamWriter = new StreamWriter(objFileStream, System.Text.Encoding.Unicode);
 
-                for (int i = 0; i < m_DataTable.Columns.Count ; i++)
+                //for (int i = 0; i < m_DataTable.Columns.Count ; i++)
 
-                {
+                //{
 
-                    strLine = strLine + m_DataTable.Columns[i].Caption.ToString() + Convert.ToChar(9);
+                    strLine = strLine + "商品名称" + Convert.ToChar(9);
+                    strLine = strLine + "商品数量" + Convert.ToChar(9);
+                    strLine = strLine + "自提点名称" + Convert.ToChar(9);
 
-                }
+                //}
 
                 objStreamWriter.WriteLine(strLine);
 

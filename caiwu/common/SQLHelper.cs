@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace server.common
+namespace caiwu.common
 {
     class SQLHelper
     {
@@ -37,8 +38,8 @@ namespace server.common
         {
 
 
-            // String ip = "hk-cdb-gzcavcg3.sql.tencentcdb.com";
-            String ip = "127.0.0.1";
+            String ip = "106.14.6.64";
+            //String ip = "getdata.feifeifgo.cn";
             String db = "feifeigo";
             String user = "root";
             String pwd = "ANbRfDBhdi8UsR0XOq";

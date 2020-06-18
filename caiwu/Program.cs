@@ -1,4 +1,5 @@
-﻿using System;
+﻿using caiwu.common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace caiwu
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            Setting.Instance();
             Application.Run(new Form1());
            
         }

@@ -77,5 +77,12 @@ namespace caiwu.common
                 ? tz.AddMilliseconds(Convert.ToInt64(timestamp))
                 : tz.AddSeconds(Convert.ToInt64(timestamp));
         }
+
+        public static long ConvertDateTimeToLong(DateTime time)
+        {
+            DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1)); // 当地时区
+            long timeStamp = (long)(time - startTime).TotalSeconds; // 相差毫秒数     
+            return timeStamp;
+        }
     }
 }
