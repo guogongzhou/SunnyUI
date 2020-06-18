@@ -12,6 +12,14 @@ namespace caiwu.common
 {
     public static class DateTimeTool
     {
+
+        public static long getUtcTrick(DateTime time)
+        {
+            DateTimeOffset fs = new DateTimeOffset(time);
+            long trick = (fs.UtcTicks - 621355968000000000) / 10000000;//秒值
+            return trick;
+        }
+
         public static long GetTimeStamp1(System.DateTime time)
         {
             DateTime DateStart = new DateTime(1970, 1, 1, 0, 0, 0);
