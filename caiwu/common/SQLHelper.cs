@@ -181,9 +181,11 @@ namespace caiwu.common
                 conn.Open();
                 MyReader2 = MyCommand2.ExecuteReader();
                 conn.Close();
+                MessageBox.Show("添加成功");
             }
             catch (Exception w)
             {
+                MessageBox.Show("添加失败");
                 LogHelper.WriteLog("执行SQL出现异常" + w.Message );
                 LogHelper.WriteLog("执行SQL出现异常" + Query);
                

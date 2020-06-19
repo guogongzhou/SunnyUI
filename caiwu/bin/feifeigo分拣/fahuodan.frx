@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="06/15/2020 19:13:54" ReportInfo.Modified="06/18/2020 22:54:54" ReportInfo.CreatorVersion="2020.2.5.0">
+  <Dictionary/>
+  <ReportPage Name="Page1" Watermark.Font="宋体, 60pt">
+    <DataBand Name="Data1" Width="718.2" Height="708.75" Border.Lines="All">
+      <TextObject Name="Text1" Left="311.85" Top="18.9" Width="132.3" Height="37.8" Text="发货单" Font="宋体, 24pt, style=Bold"/>
+      <TextObject Name="Text2" Left="9.45" Top="85.05" Width="66.15" Height="18.9" Text="收货单位" Font="宋体, 10pt, style=Bold"/>
+      <TextObject Name="Text3" Left="9.45" Top="56.7" Width="56.7" Height="18.9" Text="收货人" Font="宋体, 10pt, style=Bold"/>
+      <TextObject Name="Text4" Left="359.1" Top="56.7" Width="66.15" Height="18.9" Text="发货日期" Font="宋体, 10pt, style=Bold"/>
+      <TextObject Name="Text5" Left="142" Top="56.7" Width="47.25" Height="18.9" Text="电话" Font="宋体, 10pt, style=Bold"/>
+      <TableObject Name="Table1" Left="9.45" Top="103.95" Width="623.74" Height="18.9" Border.Lines="All">
+        <TableColumn Name="Column1" Width="519.76"/>
+        <TableColumn Name="Column5" Width="103.98"/>
+        <TableRow Name="Row2">
+          <TableCell Name="Cell6" Font="宋体, 9pt"/>
+          <TableCell Name="Cell10" Font="宋体, 9pt"/>
+        </TableRow>
+      </TableObject>
+      <TextObject Name="Text7" Left="68.05" Top="56.7" Width="66.15" Height="18.9" Text="收货单位" Font="宋体, 10pt, style=Bold"/>
+      <TextObject Name="Text8" Left="186.7" Top="56.7" Width="94.5" Height="18.9" Text="电话" Font="宋体, 10pt, style=Bold"/>
+      <TextObject Name="Text9" Left="444.15" Top="56.7" Width="141.75" Height="18.9" Text="发货日期" Font="宋体, 8pt, style=Bold"/>
+      <TextObject Name="Text10" Left="85.05" Top="85.05" Width="264.6" Height="18.9" Text="收货单位" Font="宋体, 8pt, style=Bold"/>
+      <TextObject Name="Text11" Left="368.55" Top="85.05" Width="359.1" Height="18.9" Text="收货地址" Font="宋体, 8pt, style=Bold"/>
+    </DataBand>
+  </ReportPage>
+</Report>

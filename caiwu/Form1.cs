@@ -36,7 +36,12 @@ namespace caiwu
 
         private void button1_Click(object sender, EventArgs e)
         {
-              
+            //while (this.dataGridView1.Rows.Count != 0)
+            //{
+
+            //    this.dataGridView1.Rows.RemoveAt(0);
+            //}
+            
             long startdate = DateTimeTool.ConvertDateTimeToLong(this.dateTimePicker1.Value);
             long enddate = DateTimeTool.ConvertDateTimeToLong(this.dateTimePicker2.Value);
             String zhandianmingcheng = this.comboBox1.SelectedValue.ToString();
@@ -49,7 +54,14 @@ namespace caiwu
 
 
         public void ddd(DataTable dt01) {
+            if (dataGridView1.Columns["name"]!=null) {
+                dataGridView1.Columns.Remove("name");
+                dataGridView1.Columns.Remove("number");
+                dataGridView1.Columns.Remove("strore_name");
+                this.dataGridView1.Rows.Clear();
+            }
 
+             
             //每一列必须设置CellTemplate
             //第一列
             dataGridView1.Columns.Add(new DataGridViewColumn() { Name = "name", HeaderText = "商品名称", Width = 100, CellTemplate = new DataGridViewTextBoxCell(), MinimumWidth = 100 });
@@ -108,29 +120,34 @@ namespace caiwu
         private void Form1_Load(object sender, EventArgs e)
         {
             CenterScreen();
-            bindPayStat();
+            bindZitidian();
             bingdshipping_status();
            // Class1.initData();
         }
 
-        public void bindPayStat() {
 
-            String sql = "select distinct t2.zhandianmingcheng from t_zhandian t2";
+        public void bindzitidian() {
 
-            IList<Item1> list2 = new List<Item1>();
-            Item1 i0 = new Item1();
-            i0.Id = "0";
-            i0.Name = "未付款";
-            list2.Add(i0);
 
-            Item1 i1 = new Item1();
-            i1.Id = "2";
-            i1.Name = "已付款";
-            list2.Add(i1);
+        }
+        public void bindZitidian() {
 
-            this.comboBox1.DataSource = list2;
-            this.comboBox1.DisplayMember = "name";
-            this.comboBox1.ValueMember = "id";
+            String sql = "select t2.zhandianmingcheng as '站点名称',t2.zitidianmingcheng as '自提点名称',t2.zid as '自提点编号',diqu as '地区',t2.dizhi as '地址' ,t2.xingming as '姓名',t2.mobile as '手机号' from t_zhandian t2";
+            this.dataGridView2.DataSource= SQLHelper.ExecuteDt(sql);
+            //IList<Item1> list2 = new List<Item1>();
+            //Item1 i0 = new Item1();
+            //i0.Id = "0";
+            //i0.Name = "未付款";
+            //list2.Add(i0);
+
+            //Item1 i1 = new Item1();
+            //i1.Id = "2";
+            //i1.Name = "已付款";
+            //list2.Add(i1);
+
+            //this.comboBox1.DataSource = list2;
+            //this.comboBox1.DisplayMember = "name";
+            //this.comboBox1.ValueMember = "id";
         }
 
         public void bingdshipping_status()
@@ -567,6 +584,35 @@ namespace caiwu
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            String zdmc = this.textBox1.Text;
+            String ztdmc = this.textBox2.Text;
+            String ztdbh = this.textBox3.Text;
+            String diqu = this.textBox4.Text;
+            String dizhi = this.textBox5.Text;
+            String xm = this.textBox6.Text;
+            String shoujihao = this.textBox7.Text;
+
+            if ("".Equals(zdmc) || "".Equals(ztdmc) || "".Equals(ztdbh) || "".Equals(diqu) || "".Equals(dizhi) || "".Equals(xm) || "".Equals(shoujihao))
+            {
+                MessageBox.Show("站点信息不完整");
+                return;
+            }
+            else {
+                String sql = "insert into t_zhandian(zhandianmingcheng,zitidianmingcheng,zid,diqu,dizhi,xingming,mobile)values('" + zdmc + "','" + ztdmc + "','" + ztdbh + "','" + diqu + "','" + dizhi + "','" + xm + "','" + shoujihao + "')";
+                SQLHelper.updateCgd(sql);
+                this.textBox1.Text = null;
+                this.textBox2.Text = null;
+                this.textBox3.Text = null;
+                this.textBox4.Text = null;
+                this.textBox5.Text = null;
+                this.textBox6.Text = null;
+                this.textBox7.Text = null;
+                bindZitidian();
+            }
         }
     }
 }
