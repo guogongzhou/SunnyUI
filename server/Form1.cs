@@ -64,7 +64,7 @@ namespace caiwu
                 LogHelper.WriteLog(end_add_time + "");
                 String url = "https://www.feifeigo.cn/api.php?app_key=A20DE5F4-BEA5-4E43-A5DC-AC173661F372&page_size=1000&method=dsc.order.list.get" +
                  "&start_add_time=" + start_add_time +
-                 // "&pay_status=" + pay_status +
+                  "&pay_status=" + pay_status +
                  "&end_add_time=" + end_add_time;
 
                 // String url = "https://www.feifeigo.cn/api.php?app_key=A20DE5F4-BEA5-4E43-A5DC-AC173661F372&page_size=1000&method=dsc.order.list.get&start_add_time=1591000002&end_add_time=1593592002";
