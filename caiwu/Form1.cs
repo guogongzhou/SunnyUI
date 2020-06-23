@@ -290,16 +290,17 @@ namespace caiwu
                 c1.Text = "品名";
 
 
+         
+                TableCell c2 = new TableCell();
+                c2.Text = "数量";
+
                 TableCell c3 = new TableCell();
                 c3.Text = "总价";
 
-                TableCell c2 = new TableCell();
-                c2.Text = "数量";
- 
-
                 r1.AddChild(c1);
-                r1.AddChild(c3);
                 r1.AddChild(c2);
+                r1.AddChild(c3);
+                
                 table1.AddChild(r1);
                 
                 for (int i = 0; i < goods.Count; i++)
@@ -320,8 +321,9 @@ namespace caiwu
                     cell2.Text = good.Goods_number;
                     cell3.Text = good.Goods_price;
                     row1.AddChild(cell1);
-                    row1.AddChild(cell3);
+                   
                     row1.AddChild(cell2);
+                    row1.AddChild(cell3);
                     table1.AddChild(row1);
                 }
                 TableRow r2 = new TableRow();
