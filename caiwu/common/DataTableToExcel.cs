@@ -49,6 +49,7 @@ namespace caiwu.common
 
                     strLine = strLine + "商品名称" + Convert.ToChar(9);
                     strLine = strLine + "商品数量" + Convert.ToChar(9);
+                    strLine = strLine + "商品总价" + Convert.ToChar(9);
                     strLine = strLine + "自提点名称" + Convert.ToChar(9);
 
                 //}
