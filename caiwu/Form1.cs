@@ -45,7 +45,7 @@ namespace caiwu
             long startdate = DateTimeTool.ConvertDateTimeToLong(this.dateTimePicker1.Value);
             long enddate = DateTimeTool.ConvertDateTimeToLong(this.dateTimePicker2.Value);
             String zhandianmingcheng = this.comboBox1.SelectedValue.ToString();
-            String sql = "SELECT t2.goods_name   , sum(t2.goods_number) ,sum(t2.goods_price), t1.stores_name   FROM t_orderlist t1, t_ordergoods t2 WHERE t1.order_id = t2.order_id AND t1.order_success_time > " + startdate+" AND t1.order_success_time < "+enddate+" AND t1.stores_name != 'false'AND t1.stores_name != ''AND t1.stores_name IS NOT NULL AND t1.zhandianmingcheng = '"+zhandianmingcheng+ "' group by stores_name,goods_sn,goods_name order by t1.stores_name ";
+            String sql = "SELECT t2.goods_name,t2.goods_sn, sum(t2.goods_number),sum(t2.goods_price), t1.stores_name   FROM t_orderlist t1, t_ordergoods t2 WHERE t1.order_id = t2.order_id AND t1.order_success_time > " + startdate+" AND t1.order_success_time < "+enddate+" AND t1.stores_name != 'false'AND t1.stores_name != ''AND t1.stores_name IS NOT NULL AND t1.zhandianmingcheng = '"+zhandianmingcheng+ "' group by stores_name,goods_sn,goods_name order by t1.stores_name ";
             
                 dt01=SQLHelper.ExecuteDt(sql);
                 ddd(dt01);
@@ -56,6 +56,7 @@ namespace caiwu
         public void ddd(DataTable dt01) {
             if (dataGridView1.Columns["name"]!=null) {
                 dataGridView1.Columns.Remove("name");
+                dataGridView1.Columns.Remove("goodsn");
                 dataGridView1.Columns.Remove("number");
                 dataGridView1.Columns.Remove("price");
                 dataGridView1.Columns.Remove("strore_name");
@@ -68,7 +69,17 @@ namespace caiwu
             dataGridView1.Columns.Add(new DataGridViewColumn() { Name = "name", HeaderText = "商品名称", Width = 100, CellTemplate = new DataGridViewTextBoxCell(), MinimumWidth = 100 });
 
 
+
             //第二列
+            DataGridViewColumn goodsn = new DataGridViewColumn()
+            {
+                Name = "goodsn",
+                HeaderText = "商品编号",
+                Width = 100,
+                CellTemplate = new DataGridViewTextBoxCell()
+            };
+
+            //第三列
             DataGridViewColumn ageColumn = new DataGridViewColumn()
             {
                 Name = "number",
@@ -95,6 +106,7 @@ namespace caiwu
             };
             //设置文本对齐方式
             ageColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView1.Columns.Add(goodsn);
             dataGridView1.Columns.Add(ageColumn);
             dataGridView1.Columns.Add(ColumnPrice);
             dataGridView1.Columns.Add(ageColumn3);
@@ -106,26 +118,7 @@ namespace caiwu
                 dataGridView1.Rows.Add(line.ItemArray);
             }
 
-            for (int i = 0; i < dt01.Rows.Count-1; i++)
-            {
-                //String name= dt01.Rows[i][0].ToString();
-                //String number = dt01.Rows[i][1].ToString();
-                //String strore_name = dt01.Rows[i][2].ToString();
-                //dataGridView1.Rows.Add(Cells["name"].Value = name);// .Rows[i].Cells["name"].Value = name;
-                //dataGridView1.Rows[i].Cells["number"].Value = number;
-                //dataGridView1.Rows[i].Cells["strore_name"].Value = strore_name;
-
-
-                //DataGridViewRow dr = new DataGridViewRow();
-                //DataGridViewColumn textcell1 = new DataGridViewColumn();
-                //textcell1.HeaderText = "宝宝" + i;
-                //textcell1
-                //dr.Cells.Add(textcell1);
-                //DataGridViewTextBoxCell textcell2 = new DataGridViewTextBoxCell();
-                //textcell2.Value = "宝宝" + i;
-                //dr.Cells.Add(textcell2);
-                //dataGridView1.Rows.Add(dr);
-            }
+            
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -231,20 +224,22 @@ namespace caiwu
             foreach (var userInfo in result)
             {
                 var goods = from g in userInfo.Goods.ToList()
-                           select new { GoodName = g.Field<String>("goods_name") , Goodnumber = g.Field<Double>("sum(t2.goods_number)"), GoodPrice = g.Field<Double>("sum(t2.goods_price)"), stores_name = g.Field<String>("stores_name") };
+                           select new { GoodName = g.Field<String>("goods_name"), GoodSn = g.Field<String>("goods_sn"), Goodnumber = g.Field<double>("sum(t2.goods_number)"), GoodPrice = g.Field<double>("sum(t2.goods_price)"), stores_name = g.Field<String>("stores_name") };
                 List<Fahuodan> l1 = new List<Fahuodan>();
                 Zitidian fhd_print = null;
                 foreach (var good in goods)
                 {
                     Fahuodan fhd = new Fahuodan();
                     String p1 = good.GoodName;
-                    String p2 = Convert.ToString(good.Goodnumber) ;
-                    String p4 = Convert.ToString(good.GoodPrice);
+                    double p2 =  (good.Goodnumber);
+                    decimal p4 = Convert.ToDecimal(good.GoodPrice) ;
                     String p3 = good.stores_name;
+                    String p5 = good.GoodSn;
                     fhd.Goods_name = p1;
-                    fhd.Goods_number = p2;
+                    fhd.Goods_number = (int)p2;
                     fhd.Stores_name = p3;
                     fhd.Goods_price = p4;
+                    fhd.Goods_sn = p5;
                     fhd_print =dic_zitidian[p3];
                     fhd_print.Datetime = DateTime.Now;
                     l1.Add(fhd);
@@ -287,7 +282,7 @@ namespace caiwu
             {
                  TableRow r1 = new TableRow();
                 TableCell c1 = new TableCell();
-                c1.Text = "品名";
+                c1.Text = "品名/编号";
 
 
          
@@ -302,7 +297,8 @@ namespace caiwu
                 r1.AddChild(c3);
                 
                 table1.AddChild(r1);
-                
+                int zhl = 0;
+                decimal price= new decimal();
                 for (int i = 0; i < goods.Count; i++)
                 {
                     Fahuodan good = goods[i];
@@ -316,16 +312,23 @@ namespace caiwu
                     cell2.Border.Lines = BorderLines.All;
                     cell3.Border.Color = Color.Black;
                     cell3.Border.Lines = BorderLines.All;
-                    cell1.Text = good.Goods_name;
+                    cell1.Text = good.Goods_name+"      "+ good.Goods_sn;
                     cell1.AutoWidth = true;
-                    cell2.Text = good.Goods_number;
-                    cell3.Text = good.Goods_price;
+                    cell2.Text = good.Goods_number.ToString();
+                    zhl = zhl + good.Goods_number;
+                    cell3.Text = good.Goods_price.ToString();
+                    price = (price + good.Goods_price);
                     row1.AddChild(cell1);
                    
                     row1.AddChild(cell2);
                     row1.AddChild(cell3);
                     table1.AddChild(row1);
                 }
+                TextObject textObject14 = report.FindObject("Text14") as TextObject;
+                textObject14.Text = price.ToString();
+                TextObject textObject15 = report.FindObject("Text15") as TextObject;
+                textObject15.Text =  zhl.ToString();
+
                 TableRow r2 = new TableRow();
                 //TableCell cz1 = new TableCell();
                 //cz1.Text = "总计";

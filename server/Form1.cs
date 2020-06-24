@@ -62,12 +62,12 @@ namespace caiwu
                 LogHelper.WriteLog("UTC时间" + now + "定时执行，检查" + runMinute + "分" + runSecond + "秒 是否运行");
                 LogHelper.WriteLog(start_add_time + "");
                 LogHelper.WriteLog(end_add_time + "");
-                //String url = "https://www.feifeigo.cn/api.php?app_key=A20DE5F4-BEA5-4E43-A5DC-AC173661F372&page_size=1000&method=dsc.order.list.get&pay_status=2" +
-                // "&start_add_time=" + start_add_time +
-                //  "&pay_status=" + pay_status +
-                // "&end_add_time=" + end_add_time;
+                String url = "https://www.feifeigo.cn/api.php?app_key=A20DE5F4-BEA5-4E43-A5DC-AC173661F372&page_size=1000&method=dsc.order.list.get&pay_status=2" +
+                 "&start_add_time=" + start_add_time +
+                  "&pay_status=" + pay_status +
+                 "&end_add_time=" + end_add_time;
 
-                String url = "https://www.feifeigo.cn/api.php?app_key=A20DE5F4-BEA5-4E43-A5DC-AC173661F372&page_size=1000&method=dsc.order.list.get&start_add_time=1591000002&end_add_time=1593592002";
+                /*String url = "https://www.feifeigo.cn/api.php?app_key=A20DE5F4-BEA5-4E43-A5DC-AC173661F372&page_size=1000&method=dsc.order.list.get&start_add_time=1591000002&end_add_time=1593592002";*/
                 String rep_str = HtmlParser.HttpGet(url);
                 LogHelper.WriteLog("获取订单列表请求地址" + url);
                 if ("".Equals(rep_str)) {
@@ -120,6 +120,11 @@ namespace caiwu
                     SQLHelper.updateCgd(sql_del_Ordergood);
                     SQLHelper.updateCgd(sql);
                     SQLHelper.updateCgd(sq2);
+
+                    LogHelper.WriteLog(sql_del_Orderlist);
+                    LogHelper.WriteLog(sql_del_Ordergood);
+                    LogHelper.WriteLog(sql);
+                    LogHelper.WriteLog(sq2);
                 }
                 else {
                     LogHelper.WriteLog("获取订单结束没有订单列表" + url);
